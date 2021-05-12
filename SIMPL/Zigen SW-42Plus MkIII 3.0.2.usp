@@ -1,0 +1,443 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+*******************************************************************************************/
+/*
+Manufacturer: Zigen Corp:
+Support inquiries should be directed to Zigen https://zingencorp.com or 818-654-5252. 
+
+Module by Tony Evert. 
+In addition to the hardware support provided by the manufacturer, I'm happy to offer paid support, 
+custom modifications, and Crestron programming to assist you in any way needed. 
+Contact me via http://iconsultants.net
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+*******************************************************************************************/
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+// #ENABLE_TRACE
+#CATEGORY "0"
+//#HELP_BEGIN
+//#HELP_END
+
+/*******************************************************************************************
+  Include Libraries
+*******************************************************************************************/
+#USER_SIMPLSHARP_LIBRARY "AET.Zigen.Sw42PlusV3"
+
+/*******************************************************************************************
+  DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
+*******************************************************************************************/
+DIGITAL_INPUT _Skip_; 
+DIGITAL_INPUT _Skip_;
+DIGITAL_INPUT Init, Debug, Poll;
+DIGITAL_INPUT Selected_Tune_Mode_Disabled, Selected_Tune_Mode_Presets, Selected_Tune_Mode_Equalizer, Selected_Tune_Mode_Tone_Control;
+DIGITAL_INPUT Selected_Preset_Flat, Selected_Preset_Rock, Selected_Preset_Classical, Selected_Preset_Dance, Selected_Preset_Acoustic;
+DIGITAL_INPUT Selected_Surround, Selected_Surround_Toggle, Selected_Surround_On, Selected_Surround_Off; 
+DIGITAL_INPUT Selected_Bass_Enhancement, Selected_Bass_Enhancement_Toggle, Selected_Bass_Enhancement_On, Selected_Bass_Enhancement_Off;
+DIGITAL_INPUT Selected_High_Pass, Selected_High_Pass_Toggle, Selected_High_Pass_On, Selected_High_Pass_Off;
+DIGITAL_INPUT Selected_Bass_Cut_Freq80, Selected_Bass_Cut_Freq100, Selected_Bass_Cut_Freq125, Selected_Bass_Cut_Freq150, Selected_Bass_Cut_Freq175, Selected_Bass_Cut_Freq200, Selected_Bass_Cut_Freq225;
+DIGITAL_INPUT Selected_Mute, Selected_Mute_Toggle, Selected_Mute_On, Selected_Mute_Off;
+ANALOG_INPUT Audio_Settings_Output_Select;
+ANALOG_INPUT Selected_Surround_Level, Selected_Bass_Level;
+ANALOG_INPUT Selected_Band115, Selected_Band330, Selected_Band990, Selected_Band3000, Selected_Band9900, Selected_Bass, Selected_Treble, Selected_Volume;
+
+DIGITAL_INPUT Tune_Mode_Disabled[2], Tune_Mode_Presets[2], Tune_Mode_Equalizer[2], Tune_Mode_Tone_Control[2];
+DIGITAL_INPUT Preset_Flat[2], Preset_Rock[2], Preset_Classical[2], Preset_Dance[2], Preset_Acoustic[2];
+DIGITAL_INPUT Surround[2], Surround_Toggle[2], Surround_On[2], Surround_Off[2]; 
+DIGITAL_INPUT Bass_Enhancement[2], Bass_Enhancement_Toggle[2], Bass_Enhancement_On[2], Bass_Enhancement_Off[2];
+DIGITAL_INPUT High_Pass[2], High_Pass_Toggle[2], High_Pass_On[2], High_Pass_Off[2];
+DIGITAL_INPUT Bass_Cut_Freq80[2], Bass_Cut_Freq100[2], Bass_Cut_Freq125[2], Bass_Cut_Freq150[2], Bass_Cut_Freq175[2], Bass_Cut_Freq200[2], Bass_Cut_Freq225[2];
+DIGITAL_INPUT Mute[2], Mute_Toggle[2], Mute_On[2], Mute_Off[2,2];
+ANALOG_INPUT Surround_Level[2], Bass_Level[2];
+ANALOG_INPUT Band115[2], Band330[2], Band990[2], Band3000[2], Band9900[2], Bass[2], Treble[2];
+ANALOG_INPUT  HDMI_Out[2], Volume[2,2];
+
+DIGITAL_OUTPUT _Skip_; 
+DIGITAL_OUTPUT _Skip_;
+DIGITAL_OUTPUT Selected_Tune_Mode_Disabled_F, Selected_Tune_Mode_Presets_F, Selected_Tune_Mode_Equalizer_F, Selected_Tune_Mode_Tone_Control_F;
+DIGITAL_OUTPUT Selected_Preset_Flat_F, Selected_Preset_Rock_F, Selected_Preset_Classical_F, Selected_Preset_Dance_F, Selected_Preset_Acoustic_F;
+DIGITAL_OUTPUT Selected_Surround_F; 
+DIGITAL_OUTPUT Selected_Bass_Enhancement_F, Selected_High_Pass_F;
+DIGITAL_OUTPUT Selected_Bass_Cut_Freq80_F, Selected_Bass_Cut_Freq100_F, Selected_Bass_Cut_Freq125_F, Selected_Bass_Cut_Freq150_F, Selected_Bass_Cut_Freq175_F, Selected_Bass_Cut_Freq200_F, Selected_Bass_Cut_Freq225_F;
+DIGITAL_OUTPUT Selected_Mute_F;
+ANALOG_OUTPUT Selected_Surround_Level_F, Selected_Bass_Level_F;
+ANALOG_OUTPUT Selected_Band115_F, Selected_Band330_F, Selected_Band990_F, Selected_Band3000_F, Selected_Band9900_F, Selected_Bass_F, Selected_Treble_F, Selected_Volume_F;
+STRING_OUTPUT Selected_Band115$, Selected_Band330$, Selected_Band990$, Selected_Band3000$, Selected_Band9900$, Selected_Bass$, Selected_Treble$;
+
+DIGITAL_OUTPUT Tune_Mode_Disabled_F[2], Tune_Mode_Presets_F[2], Tune_Mode_Equalizer_F[2], Tune_Mode_Tone_Control_F[2];
+DIGITAL_OUTPUT Preset_Flat_F[2], Preset_Rock_F[2], Preset_Classical_F[2], Preset_Dance_F[2], Preset_Acoustic_F[2];
+DIGITAL_OUTPUT Surround_F[2]; 
+DIGITAL_OUTPUT Bass_Enhancement_F[2], High_Pass_F[2];
+DIGITAL_OUTPUT Bass_Cut_Freq80_F[2], Bass_Cut_Freq100_F[2], Bass_Cut_Freq125_F[2], Bass_Cut_Freq150_F[2], Bass_Cut_Freq175_F[2], Bass_Cut_Freq200_F[2], Bass_Cut_Freq225_F[2];
+DIGITAL_OUTPUT Mute_F[2,2];
+ANALOG_OUTPUT Surround_Level_F[2], Bass_Level_F[2];
+ANALOG_OUTPUT Band115_F[2], Band330_F[2], Band990_F[2], Band3000_F[2], Band9900_F[2], Bass_F[2], Treble_F[2];
+STRING_OUTPUT Band115$[2], Band330$[2], Band990$[2], Band3000$[2], Band9900$[2], Bass$[2], Treble$[2,2];
+ANALOG_OUTPUT HDMI_Out_F[2], Volume_F[2];
+
+
+/*******************************************************************************************
+  Parameters
+*******************************************************************************************/
+STRING_PARAMETER Host_Name[255];
+
+/*******************************************************************************************
+  Parameter Properties
+  (Uncomment and declare parameter properties as needed)
+*******************************************************************************************/
+#BEGIN_PARAMETER_PROPERTIES Host_Name
+   propDefaultValue = "http://192.168.1.10/";
+   propShortDescription = "Address of Zigen SW-42Plus unit: http://hostname[:port]/";
+#END_PARAMETER_PROPERTIES
+
+
+/*******************************************************************************************
+  Global Variables
+*******************************************************************************************/
+Sw42Plus sw42;
+AudioSettings rca[2];
+
+/*******************************************************************************************
+  Functions
+*******************************************************************************************/
+function SwitchVideo(integer out, integer in) { sw42.SwitchVideoInputToOutput(in, out); }
+
+function ChangeCurrentAudioSettings(integer index) { sw42.SelectedAudioSettings = index; }
+
+function InitializeAudioSettings(AudioSettings settings) {
+  EqSetting prop;
+	RegisterDelegate(settings, SetMuteF,SetMuteF);
+	RegisterDelegate(settings, SetVolumeF,SetVolumeF);
+	RegisterDelegate(settings, SetTuneModeDisabledF,SetTuneModeDisabledF);
+	RegisterDelegate(settings, SetTuneModePresetsF,SetTuneModePresetsF);
+	RegisterDelegate(settings, SetTuneModeEqualizerF,SetTuneModeEqualizerF);
+	RegisterDelegate(settings, SetTuneModeToneControlF,SetTuneModeToneControlF);
+	RegisterDelegate(settings, SetPresetFlatF,SetPresetFlatF);
+	RegisterDelegate(settings, SetPresetRockF,SetPresetRockF);
+	RegisterDelegate(settings, SetPresetClassicalF,SetPresetClassicalF);
+	RegisterDelegate(settings, SetPresetDanceF,SetPresetDanceF);
+	RegisterDelegate(settings, SetPresetAcousticF,SetPresetAcousticF);
+  
+	prop = settings.Band115;
+	RegisterDelegate(prop, FeedbackDelegate, SetBand115F);
+	RegisterDelegate(prop, TextFeedbackDelegate, SetBand115Text);
+	prop = settings.Band330;
+	RegisterDelegate(prop, FeedbackDelegate, SetBand330F);
+	RegisterDelegate(prop, TextFeedbackDelegate, SetBand330Text);
+	prop = settings.Band990;
+	RegisterDelegate(prop, FeedbackDelegate, SetBand990F);
+	RegisterDelegate(prop, TextFeedbackDelegate, SetBand990Text);
+	prop = settings.Band3000;
+	RegisterDelegate(prop, FeedbackDelegate, SetBand3000F);
+	RegisterDelegate(prop, TextFeedbackDelegate, SetBand3000Text);
+	prop = settings.Band9900;
+	RegisterDelegate(prop, FeedbackDelegate, SetBand9900F);
+	RegisterDelegate(prop, TextFeedbackDelegate, SetBand9900Text);	
+  prop = settings.Treble;
+  RegisterDelegate(prop, FeedbackDelegate,SetTrebleF);
+  RegisterDelegate(prop, TextFeedbackDelegate,SetTrebleText);
+  prop = settings.Bass;
+  RegisterDelegate(prop, FeedbackDelegate,SetBassF);
+  RegisterDelegate(prop, TextFeedbackDelegate,SetBassText);
+
+	RegisterDelegate(settings, SetSurroundF,SetSurroundF);
+	RegisterDelegate(settings, SetSurroundLevelF,SetSurroundLevelF);
+	RegisterDelegate(settings, SetBassEnhancementF,SetBassEnhancementF);
+	RegisterDelegate(settings, SetBassLevelF,SetBassLevelF);
+	RegisterDelegate(settings, SetBassCutFreq80F,SetBassCutFreq80F);
+	RegisterDelegate(settings, SetBassCutFreq100F,SetBassCutFreq100F);
+	RegisterDelegate(settings, SetBassCutFreq125F,SetBassCutFreq125F);
+	RegisterDelegate(settings, SetBassCutFreq150F,SetBassCutFreq150F);
+	RegisterDelegate(settings, SetBassCutFreq175F,SetBassCutFreq175F);
+	RegisterDelegate(settings, SetBassCutFreq200F,SetBassCutFreq200F);
+	RegisterDelegate(settings, SetBassCutFreq225F,SetBassCutFreq225F);
+	RegisterDelegate(settings, SetHighPassF,SetHighPassF); 
+  RegisterDelegate(settings, SetVolumeF, SetVolumeF);
+  RegisterDelegate(settings, SetMuteF, SetMuteF);
+}
+
+function Initialize() {
+  sw42.HostName = Host_Name;
+
+	RegisterDelegate(sw42, SetMuteF, SetSelectedMuteF);
+	RegisterDelegate(sw42, SetVolumeF, SetSelectedVolumeF);
+	RegisterDelegate(sw42, SetTuneModeDisabledF, SetSelectedTuneModeDisabledF);
+	RegisterDelegate(sw42, SetTuneModePresetsF, SetSelectedTuneModePresetsF);
+	RegisterDelegate(sw42, SetTuneModeEqualizerF, SetSelectedTuneModeEqualizerF);
+	RegisterDelegate(sw42, SetTuneModeToneControlF, SetSelectedTuneModeToneControlF);
+	RegisterDelegate(sw42, SetPresetFlatF, SetSelectedPresetFlatF);
+	RegisterDelegate(sw42, SetPresetRockF, SetSelectedPresetRockF);
+	RegisterDelegate(sw42, SetPresetClassicalF, SetSelectedPresetClassicalF);
+	RegisterDelegate(sw42, SetPresetDanceF, SetSelectedPresetDanceF);
+	RegisterDelegate(sw42, SetPresetAcousticF, SetSelectedPresetAcousticF);
+	RegisterDelegate(sw42, SetBand115F, SetSelectedBand115F);
+	RegisterDelegate(sw42, SetBand330F, SetSelectedBand330F);
+	RegisterDelegate(sw42, SetBand990F, SetSelectedBand990F);
+	RegisterDelegate(sw42, SetBand3000F, SetSelectedBand3000F);
+	RegisterDelegate(sw42, SetBand9900F, SetSelectedBand9900F);
+	RegisterDelegate(sw42, SetBand115Text, SetSelectedBand115Text);
+	RegisterDelegate(sw42, SetBand330Text, SetSelectedBand330Text);
+	RegisterDelegate(sw42, SetBand990Text, SetSelectedBand990Text);
+	RegisterDelegate(sw42, SetBand3000Text, SetSelectedBand3000Text);
+	RegisterDelegate(sw42, SetBand9900Text, SetSelectedBand9900Text);
+	RegisterDelegate(sw42, SetBassF, SetSelectedBassF);
+	RegisterDelegate(sw42, SetTrebleF, SetSelectedTrebleF);
+	RegisterDelegate(sw42, SetBassText, SetSelectedBassText);
+	RegisterDelegate(sw42, SetTrebleText, SetSelectedTrebleText);
+	RegisterDelegate(sw42, SetSurroundF, SetSelectedSurroundF);
+	RegisterDelegate(sw42, SetSurroundLevelF, SetSelectedSurroundLevelF);
+	RegisterDelegate(sw42, SetBassEnhancementF, SetSelectedBassEnhancementF);
+	RegisterDelegate(sw42, SetBassLevelF, SetSelectedBassLevelF);
+	RegisterDelegate(sw42, SetBassCutFreq80F, SetSelectedBassCFreq80F);
+	RegisterDelegate(sw42, SetBassCutFreq100F, SetSelectedBassCFreq100F);
+	RegisterDelegate(sw42, SetBassCutFreq125F, SetSelectedBassCFreq125F);
+	RegisterDelegate(sw42, SetBassCutFreq150F, SetSelectedBassCFreq150F);
+	RegisterDelegate(sw42, SetBassCutFreq175F, SetSelectedBassCFreq175F);
+	RegisterDelegate(sw42, SetBassCutFreq200F, SetSelectedBassCFreq200F);
+	RegisterDelegate(sw42, SetBassCutFreq225F, SetSelectedBassCFreq225F);
+	RegisterDelegate(sw42, SetHighPassF, SetSelectedHighPassF); 
+	RegisterDelegate(sw42, SetVideoOutF, SetVideoOutF);
+
+	RegisterDelegate(sw42, SetAudioSettingsArray, SetAudioSettingsArray);
+  sw42.Initialize();
+  sw42.GetAudioSettingsArray();
+}
+
+callback function SetVideoOutF(integer index, integer value) { if(value <> HDMI_Out_F[index]) HDMI_Out_F[index] = value; }
+
+callback function SetSelectedTuneModeDisabledF(integer value) { if (Selected_Tune_Mode_Disabled_F <> value) Selected_Tune_Mode_Disabled_F = value; }
+callback function SetSelectedTuneModePresetsF(integer value) { if (Selected_Tune_Mode_Presets_F <> value) Selected_Tune_Mode_Presets_F = value; }
+callback function SetSelectedTuneModeEqualizerF(integer value) { if (Selected_Tune_Mode_Equalizer_F <> value) Selected_Tune_Mode_Equalizer_F = value; }
+callback function SetSelectedTuneModeToneControlF(integer value) { if (Selected_Tune_Mode_Tone_Control_F <> value) Selected_Tune_Mode_Tone_Control_F = value; }
+callback function SetSelectedPresetFlatF(integer value) { if (Selected_Preset_Flat_F <> value) Selected_Preset_Flat_F = value; }
+callback function SetSelectedPresetRockF(integer value) { if (Selected_Preset_Rock_F <> value) Selected_Preset_Rock_F = value; }
+callback function SetSelectedPresetClassicalF(integer value) { if (Selected_Preset_Classical_F <> value) Selected_Preset_Classical_F = value; }
+callback function SetSelectedPresetDanceF(integer value) { if (Selected_Preset_Dance_F <> value) Selected_Preset_Dance_F = value; }
+callback function SetSelectedPresetAcousticF(integer value) { if (Selected_Preset_Acoustic_F <> value) Selected_Preset_Acoustic_F = value; }
+callback function SetSelectedBand115F(signed_integer value) { if (Selected_Band115_F <> value) Selected_Band115_F = value; }
+callback function SetSelectedBand330F(signed_integer value) { if (Selected_Band330_F <> value) Selected_Band330_F = value; }
+callback function SetSelectedBand990F(signed_integer value) { if (Selected_Band990_F <> value) Selected_Band990_F = value; }
+callback function SetSelectedBand3000F(signed_integer value) { if (Selected_Band3000_F <> value) Selected_Band3000_F = value; }
+callback function SetSelectedBand9900F(signed_integer value) { if (Selected_Band9900_F <> value) Selected_Band9900_F = value; }
+callback function SetSelectedBassF(signed_integer value) { if (Selected_Bass_F <> value) Selected_Bass_F = value; }
+callback function SetSelectedTrebleF(signed_integer value) { if (Selected_Treble_F <> value) Selected_Treble_F = value; }
+callback function SetSelectedBand115Text(string value) { Selected_Band115$ = value; }
+callback function SetSelectedBand330Text(string value) { Selected_Band330$ = value; }
+callback function SetSelectedBand990Text(string value) { Selected_Band990$ = value; }
+callback function SetSelectedBand3000Text(string value) { Selected_Band3000$ = value; }
+callback function SetSelectedBand9900Text(string value) { Selected_Band9900$ = value; }
+callback function SetSelectedBassText(string value) { Selected_Bass$ = value; }
+callback function SetSelectedTrebleText(string value) { Selected_Treble$ = value; }
+callback function SetSelectedSurroundF(integer value) { if (Selected_Surround_F <> value) Selected_Surround_F = value; }
+callback function SetSelectedSurroundLevelF(integer value) { if (Selected_Surround_Level_F <> value) Selected_Surround_Level_F = value; }
+callback function SetSelectedBassEnhancementF(integer value) { if (Selected_Bass_Enhancement_F <> value) Selected_Bass_Enhancement_F = value; }
+callback function SetSelectedBassLevelF(integer value) { if (Selected_Bass_Level_F <> value) Selected_Bass_Level_F = value; }
+callback function SetSelectedBassCFreq80F(integer value) { if (Selected_Bass_Cut_Freq80_F <> value) Selected_Bass_Cut_Freq80_F = value; }
+callback function SetSelectedBassCFreq100F(integer value) { if (Selected_Bass_Cut_Freq100_F <> value) Selected_Bass_Cut_Freq100_F = value; }
+callback function SetSelectedBassCFreq125F(integer value) { if (Selected_Bass_Cut_Freq125_F <> value) Selected_Bass_Cut_Freq125_F = value; }
+callback function SetSelectedBassCFreq150F(integer value) { if (Selected_Bass_Cut_Freq150_F <> value) Selected_Bass_Cut_Freq150_F = value; }
+callback function SetSelectedBassCFreq175F(integer value) { if (Selected_Bass_Cut_Freq175_F <> value) Selected_Bass_Cut_Freq175_F = value; }
+callback function SetSelectedBassCFreq200F(integer value) { if (Selected_Bass_Cut_Freq200_F <> value) Selected_Bass_Cut_Freq200_F = value; }
+callback function SetSelectedBassCFreq225F(integer value) { if (Selected_Bass_Cut_Freq225_F <> value) Selected_Bass_Cut_Freq225_F = value; }
+callback function SetSelectedHighPassF(integer value) { if (Selected_High_Pass_F <> value) Selected_High_Pass_F = value; }
+callback function SetSelectedMuteF(integer value) { if (Selected_Mute_F <> value) Selected_Mute_F = value; }
+callback function SetSelectedVolumeF(integer value) { if (Selected_Volume_F <> value) Selected_Volume_F = value; }
+
+callback function SetTuneModeDisabledF(integer index, integer value) { if (Tune_Mode_Disabled_F[index] <> value) Tune_Mode_Disabled_F[index] = value; }
+callback function SetTuneModePresetsF(integer index, integer value) { if (Tune_Mode_Presets_F[index] <> value) Tune_Mode_Presets_F[index] = value; }
+callback function SetTuneModeEqualizerF(integer index, integer value) { if (Tune_Mode_Equalizer_F[index] <> value) Tune_Mode_Equalizer_F[index] = value; }
+callback function SetTuneModeToneControlF(integer index, integer value) { if (Tune_Mode_Tone_Control_F[index] <> value) Tune_Mode_Tone_Control_F[index] = value; }
+callback function SetPresetFlatF(integer index, integer value) { if (Preset_Flat_F[index] <> value) Preset_Flat_F[index] = value; }
+callback function SetPresetRockF(integer index, integer value) { if (Preset_Rock_F[index] <> value) Preset_Rock_F[index] = value; }
+callback function SetPresetClassicalF(integer index, integer value) { if (Preset_Classical_F[index] <> value) Preset_Classical_F[index] = value; }
+callback function SetPresetDanceF(integer index, integer value) { if (Preset_Dance_F[index] <> value) Preset_Dance_F[index] = value; }
+callback function SetPresetAcousticF(integer index, integer value) { if (Preset_Acoustic_F[index] <> value) Preset_Acoustic_F[index] = value; }
+callback function SetBand115F(integer index, signed_integer value) { if (Band115_F[index] <> value) Band115_F[index] = value; }
+callback function SetBand330F(integer index, signed_integer value) { if (Band330_F[index] <> value) Band330_F[index] = value; }
+callback function SetBand990F(integer index, signed_integer value) { if (Band990_F[index] <> value) Band990_F[index] = value; }
+callback function SetBand3000F(integer index, signed_integer value) { if (Band3000_F[index] <> value) Band3000_F[index] = value; }
+callback function SetBand9900F(integer index, signed_integer value) { if (Band9900_F[index] <> value) Band9900_F[index] = value; }
+callback function SetBassF(integer index, signed_integer value) { if (Bass_F[index] <> value) Bass_F[index] = value; }
+callback function SetTrebleF(integer index, signed_integer value) { if (Treble_F[index] <> value) Treble_F[index] = value; }
+callback function SetBand115Text(integer index, string value) { Band115$[index] = value; }
+callback function SetBand330Text(integer index, string value) { Band330$[index] = value; }
+callback function SetBand990Text(integer index, string value) { Band990$[index] = value; }
+callback function SetBand3000Text(integer index, string value) { Band3000$[index] = value; }
+callback function SetBand9900Text(integer index, string value) { Band9900$[index] = value; }
+callback function SetBassText(integer index, string value) { Bass$[index] = value; }
+callback function SetTrebleText(integer index, string value) { Treble$[index] = value; }
+callback function SetSurroundF(integer index, integer value) { if (Surround_F[index] <> value) Surround_F[index] = value; }
+callback function SetSurroundLevelF(integer index, integer value) { if (Surround_Level_F[index] <> value) Surround_Level_F[index] = value; }
+callback function SetBassEnhancementF(integer index, integer value) { if (Bass_Enhancement_F[index] <> value) Bass_Enhancement_F[index] = value; }
+callback function SetBassLevelF(integer index, integer value) { if (Bass_Level_F[index] <> value) Bass_Level_F[index] = value; }
+callback function SetBassCutFreq80F(integer index, integer value) { if (Bass_Cut_Freq80_F[index] <> value) Bass_Cut_Freq80_F[index] = value; }
+callback function SetBassCutFreq100F(integer index, integer value) { if (Bass_Cut_Freq100_F[index] <> value) Bass_Cut_Freq100_F[index] = value; }
+callback function SetBassCutFreq125F(integer index, integer value) { if (Bass_Cut_Freq125_F[index] <> value) Bass_Cut_Freq125_F[index] = value; }
+callback function SetBassCutFreq150F(integer index, integer value) { if (Bass_Cut_Freq150_F[index] <> value) Bass_Cut_Freq150_F[index] = value; }
+callback function SetBassCutFreq175F(integer index, integer value) { if (Bass_Cut_Freq175_F[index] <> value) Bass_Cut_Freq175_F[index] = value; }
+callback function SetBassCutFreq200F(integer index, integer value) { if (Bass_Cut_Freq200_F[index] <> value) Bass_Cut_Freq200_F[index] = value; }
+callback function SetBassCutFreq225F(integer index, integer value) { if (Bass_Cut_Freq225_F[index] <> value) Bass_Cut_Freq225_F[index] = value; }
+callback function SetHighPassF(integer index, integer value) { if (High_Pass_F[index] <> value) High_Pass_F[index] = value; }
+callback function SetMuteF(integer index, integer value) { if(value <> Mute_F[index]) Mute_F[index] = value; }
+callback function SetVolumeF(integer index, integer value) { if(value <> Volume_F[index]) Volume_F[index] = value; }
+
+callback function SetAudioSettingsArray(AudioSettings audioSettingsArray[]) { 
+  integer a;
+  for(a = 1 to 12) {
+    rca[a] = audioSettingsArray[a - 1]; 
+    InitializeAudioSettings(audioSettingsArray[a - 1]);
+  }
+  ChangeCurrentAudioSettings(1); 
+  sw42.Poll();
+}
+
+
+
+/*******************************************************************************************
+  Event Handlers
+*******************************************************************************************/
+PUSH Init { Initialize(); }
+
+CHANGE HDMI_Out {
+  SwitchVideo(GetLastModifiedArrayIndex(), HDMI_Out[GetLastModifiedArrayIndex()]);
+}
+
+CHANGE Debug {
+  sw42.Debug = Debug;
+}
+
+PUSH Poll { sw42.Poll(); }
+
+CHANGE Audio_Settings_Output_Select {
+  ChangeCurrentAudioSettings(Audio_Settings_Output_Select); 
+  
+}
+
+CHANGE Mute { 
+  integer output;
+  output = GetLastModifiedArrayIndex();
+  rca[output].Mute = Mute[output]; 
+}
+
+CHANGE Mute_Toggle { integer output; output = GetLastModifiedArrayIndex(); rca[output].MuteToggle(); }
+CHANGE Mute_On { integer output; output = GetLastModifiedArrayIndex(); rca[output].Mute = 1; }
+CHANGE Mute_Off { integer output; output = GetLastModifiedArrayIndex(); rca[output].Mute = 0; }
+
+
+CHANGE Volume { 
+  integer output;
+  output = GetLastModifiedArrayIndex();
+  rca[output].Volume = Volume[output]; 
+  
+}
+
+PUSH Tune_Mode_Disabled { integer output; output = GetLastModifiedArrayIndex(); rca[output].TuneModeDisabled();}
+PUSH Tune_Mode_Presets { integer output; output = GetLastModifiedArrayIndex(); rca[output].TuneModePresets();}
+PUSH Tune_Mode_Equalizer { integer output; output = GetLastModifiedArrayIndex(); rca[output].TuneModeEqualizer();}
+PUSH Tune_Mode_Tone_Control { integer output; output = GetLastModifiedArrayIndex(); rca[output].TuneModeToneControl();}
+
+PUSH Preset_Flat { integer output; output = GetLastModifiedArrayIndex(); rca[output].PresetFlat();}
+PUSH Preset_Rock { integer output; output = GetLastModifiedArrayIndex(); rca[output].PresetRock();}
+PUSH Preset_Classical { integer output; output = GetLastModifiedArrayIndex(); rca[output].PresetClassical();}
+PUSH Preset_Dance { integer output; output = GetLastModifiedArrayIndex(); rca[output].PresetDance();}
+PUSH Preset_Acoustic { integer output; output = GetLastModifiedArrayIndex(); rca[output].PresetAcoustic();}
+
+CHANGE Surround { integer output; output = GetLastModifiedArrayIndex(); rca[output].Surround = Surround[output];}
+PUSH Surround_Toggle { integer output; output = GetLastModifiedArrayIndex(); rca[output].SurroundToggle();}
+PUSH Surround_On { integer output; output = GetLastModifiedArrayIndex(); rca[output].Surround = 1;}
+PUSH Surround_Off  { integer output; output = GetLastModifiedArrayIndex(); rca[output].Surround = 0;}
+
+CHANGE Bass_Enhancement { integer output; output = GetLastModifiedArrayIndex(); rca[output].BassEnhancement = Bass_Enhancement[output];}
+PUSH Bass_Enhancement_Toggle { integer output; output = GetLastModifiedArrayIndex(); rca[output].BassEnhancementToggle();}
+PUSH Bass_Enhancement_On { integer output; output = GetLastModifiedArrayIndex(); rca[output].BassEnhancement = 1;}
+PUSH Bass_Enhancement_Off { integer output; output = GetLastModifiedArrayIndex(); rca[output].BassEnhancement = 0;}
+PUSH Bass_Cut_Freq80 { integer output; output = GetLastModifiedArrayIndex(); rca[output].BassCutFreq80();}
+PUSH Bass_Cut_Freq100 { integer output; output = GetLastModifiedArrayIndex(); rca[output].BassCutFreq100();}
+PUSH Bass_Cut_Freq125 { integer output; output = GetLastModifiedArrayIndex(); rca[output].BassCutFreq125();}
+PUSH Bass_Cut_Freq150 { integer output; output = GetLastModifiedArrayIndex(); rca[output].BassCutFreq150();}
+PUSH Bass_Cut_Freq175 { integer output; output = GetLastModifiedArrayIndex(); rca[output].BassCutFreq175();}
+PUSH Bass_Cut_Freq200 { integer output; output = GetLastModifiedArrayIndex(); rca[output].BassCutFreq200();}
+PUSH Bass_Cut_Freq225 { integer output; output = GetLastModifiedArrayIndex(); rca[output].BassCutFreq225();}
+
+
+CHANGE High_Pass { integer output; output = GetLastModifiedArrayIndex(); rca[output].HighPass = High_Pass[output];}
+PUSH High_Pass_Toggle { integer output; output = GetLastModifiedArrayIndex(); rca[output].HighPassToggle();}
+PUSH High_Pass_On { integer output; output = GetLastModifiedArrayIndex(); rca[output].HighPass = 1;}
+PUSH High_Pass_Off { integer output; output = GetLastModifiedArrayIndex(); rca[output].HighPass = 0;}
+
+CHANGE Band115 { integer output; output = GetLastModifiedArrayIndex(); rca[output].Band115.Value = Band115[output];}
+CHANGE Band330 { integer output; output = GetLastModifiedArrayIndex(); rca[output].Band330.Value = Band330[output];}
+CHANGE Band990 { integer output; output = GetLastModifiedArrayIndex(); rca[output].Band990.Value = Band990[output];}
+CHANGE Band3000 { integer output; output = GetLastModifiedArrayIndex(); rca[output].Band3000.Value = Band3000[output];}
+CHANGE Band9900 { integer output; output = GetLastModifiedArrayIndex(); rca[output].Band9900.Value = Band9900[output];}
+
+CHANGE Bass { integer output; output = GetLastModifiedArrayIndex(); rca[output].Bass.Value = Bass[output];}
+CHANGE Treble { integer output; output = GetLastModifiedArrayIndex(); rca[output].Treble.Value = Treble[output];}
+
+CHANGE Bass_Level { integer output; output = GetLastModifiedArrayIndex(); rca[output].BassLevel = Bass_Level[output];}
+CHANGE Surround_Level { integer output; output = GetLastModifiedArrayIndex(); rca[output].SurroundLevel = Surround_Level[output]; }
+                
+
+PUSH Selected_Tune_Mode_Disabled { sw42.CurrentAudioSettings.TuneModeDisabled();}
+PUSH Selected_Tune_Mode_Presets { sw42.CurrentAudioSettings.TuneModePresets();}
+PUSH Selected_Tune_Mode_Equalizer { sw42.CurrentAudioSettings.TuneModeEqualizer();}
+PUSH Selected_Tune_Mode_Tone_Control { sw42.CurrentAudioSettings.TuneModeToneControl();}
+
+PUSH Selected_Preset_Flat { sw42.CurrentAudioSettings.PresetFlat();}
+PUSH Selected_Preset_Rock { sw42.CurrentAudioSettings.PresetRock();}
+PUSH Selected_Preset_Classical { sw42.CurrentAudioSettings.PresetClassical();}
+PUSH Selected_Preset_Dance { sw42.CurrentAudioSettings.PresetDance();}
+PUSH Selected_Preset_Acoustic { sw42.CurrentAudioSettings.PresetAcoustic();}
+
+CHANGE Selected_Surround { sw42.CurrentAudioSettings.Surround = Selected_Surround;}
+PUSH Selected_Surround_Toggle { sw42.CurrentAudioSettings.SurroundToggle();}
+PUSH Selected_Surround_On { sw42.CurrentAudioSettings.Surround = 1;}
+PUSH Selected_Surround_Off  { sw42.CurrentAudioSettings.Surround = 0;}
+
+CHANGE Selected_Bass_Enhancement { sw42.CurrentAudioSettings.BassEnhancement = Selected_Bass_Enhancement;}
+PUSH Selected_Bass_Enhancement_Toggle { sw42.CurrentAudioSettings.BassEnhancementToggle();}
+PUSH Selected_Bass_Enhancement_On { sw42.CurrentAudioSettings.BassEnhancement = 1;}
+PUSH Selected_Bass_Enhancement_Off { sw42.CurrentAudioSettings.BassEnhancement = 0;}
+PUSH Selected_Bass_Cut_Freq80 { sw42.CurrentAudioSettings.BassCutFreq80();}
+PUSH Selected_Bass_Cut_Freq100 { sw42.CurrentAudioSettings.BassCutFreq100();}
+PUSH Selected_Bass_Cut_Freq125 { sw42.CurrentAudioSettings.BassCutFreq125();}
+PUSH Selected_Bass_Cut_Freq150 { sw42.CurrentAudioSettings.BassCutFreq150();}
+PUSH Selected_Bass_Cut_Freq175 { sw42.CurrentAudioSettings.BassCutFreq175();}
+PUSH Selected_Bass_Cut_Freq200 { sw42.CurrentAudioSettings.BassCutFreq200();}
+PUSH Selected_Bass_Cut_Freq225 { sw42.CurrentAudioSettings.BassCutFreq225();}
+
+CHANGE Selected_High_Pass { sw42.CurrentAudioSettings.HighPass = Selected_High_Pass;}
+PUSH Selected_High_Pass_Toggle { sw42.CurrentAudioSettings.HighPassToggle();}
+PUSH Selected_High_Pass_On { sw42.CurrentAudioSettings.HighPass = 1;}
+PUSH Selected_High_Pass_Off { sw42.CurrentAudioSettings.HighPass = 0;}
+
+CHANGE Selected_Band115 { sw42.CurrentAudioSettings.Band115.Value = Selected_Band115;}
+CHANGE Selected_Band330 { sw42.CurrentAudioSettings.Band330.Value = Selected_Band330;}
+CHANGE Selected_Band990 { sw42.CurrentAudioSettings.Band990.Value = Selected_Band990;}
+CHANGE Selected_Band3000 { sw42.CurrentAudioSettings.Band3000.Value = Selected_Band3000;}
+CHANGE Selected_Band9900 { sw42.CurrentAudioSettings.Band9900.Value = Selected_Band9900;}
+
+CHANGE Selected_Bass { sw42.CurrentAudioSettings.Bass.Value = Selected_Bass;}
+CHANGE Selected_Treble { sw42.CurrentAudioSettings.Treble.Value = Selected_Treble;}
+
+CHANGE Selected_Bass_Level { sw42.CurrentAudioSettings.BassLevel = Selected_Bass_Level;}
+CHANGE Selected_Surround_Level { sw42.CurrentAudioSettings.SurroundLevel = Selected_Surround_Level; }
+
+CHANGE Selected_Volume { sw42.CurrentAudioSettings.Volume = Selected_Volume; }
+CHANGE Selected_Mute { sw42.CurrentAudioSettings.Mute = Selected_Mute; }
+PUSH Selected_Mute_Toggle { sw42.CurrentAudioSettings.MuteToggle(); }
+PUSH Selected_Mute_On { sw42.CurrentAudioSettings.Mute = 1; }
+PUSH Selected_Mute_Off { sw42.CurrentAudioSettings.Mute = 0; }
+
+CHANGE Selected_Band115, Selected_Band3000, Selected_Band330, Selected_Band990, Selected_Band9900, Selected_Bass, Selected_Bass_Level, Selected_Surround_Level, Selected_Treble {
+  Wait(15, UpdateAnalogWait) { }
+  RetimeWait(15, UpdateAnalogWait);
+}
+
+/*******************************************************************************************
+  Main()
+*******************************************************************************************/
+//Function Main() { }
+
