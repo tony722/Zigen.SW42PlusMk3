@@ -1,6 +1,6 @@
 ![Zigen Logo](https://github.com/tony722/Zigen.HXLPlus/raw/master/Documentation/Zigen_Logo_Black_small.png)
 ***
-# Zigen SW-41Plus MKIII Crestron Module
+# Zigen SW-42Plus MKIII Crestron Module
 ### Zigen.SW42PlusMk3
 Crestron driver for Zigen SW-42Plus MKIII Video Switcher.<br>
 _(It is not compatible with previous hardware versions of the SW-42Plus)_
